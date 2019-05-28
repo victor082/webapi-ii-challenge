@@ -31,6 +31,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/:id/comments', async (req, res) => {
+    try {
+        const comments = await Posts.findById(req.params.id);
+
+        if (comments) {
+            res.status(200).json(comments);
+        } else {
+            res.status(404).json({ message: 'Comment not found' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: 'Error retrieving the comment',
+        });
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         const post = await Posts.add(req.body);
@@ -47,7 +64,7 @@ router.post('/', async (req, res) => {
 router.post(':id/comments', async (req, res) => {
     try {
         const comment = await Posts.add(req.body);
-        res.status(201).json(post);
+        res.status(201).json(comment);
     } catch (error) {
         // log error to database
         console.log(error);
@@ -76,19 +93,19 @@ router.delete('/:id/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-      const post = await Posts.update(req.params.id, req.body);
-      if (post) {
-        res.status(200).json(post);
-      } else {
-        res.status(404).json({ message: 'The post could not be found' });
-      }
+        const post = await Posts.update(req.params.id, req.body);
+        if (post) {
+            res.status(200).json(post);
+        } else {
+            res.status(404).json({ message: 'The post could not be found' });
+        }
     } catch (error) {
-      // log error to database
-      console.log(error);
-      res.status(500).json({
-        message: 'Error updating the post',
-      });
+        // log error to database
+        console.log(error);
+        res.status(500).json({
+            message: 'Error updating the post',
+        });
     }
-  });
+});
 
-  module.exports = router;
+module.exports = router;
