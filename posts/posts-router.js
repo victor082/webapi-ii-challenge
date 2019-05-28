@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 
 router.post(':id/comments', async (req, res) => {
     try {
-        const comment = await Comments.add(req.body);
+        const comment = await Posts.add(req.body);
         res.status(201).json(post);
     } catch (error) {
         // log error to database
@@ -90,3 +90,5 @@ router.put('/:id', async (req, res) => {
       });
     }
   });
+
+  module.exports = router;
